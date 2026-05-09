@@ -1,3 +1,10 @@
+/*
+  TODO's:
+  - Show progress bar during copy
+  - Support recursive directory copying
+  - Use platform-specific I/O intrinsics
+*/
+
 #define STUFF_IMPLEMENTED
 #include "arena.h"
 #include "file8.h"
