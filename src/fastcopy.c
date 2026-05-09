@@ -2,6 +2,7 @@
   TODO's:
   - Show progress bar during copy
   - Support recursive directory copying
+  - Support replace existing files via flags (-r???)
   - Use platform-specific I/O intrinsics
 */
 

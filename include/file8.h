@@ -72,6 +72,7 @@ b8 file_copy(ARENA *arena, STRING8 *source_path, STRING8 *dest_path) {
   arena_restore(arena, save);
   return result;
 }
+
 #endif
 
 #endif // FILE_H
