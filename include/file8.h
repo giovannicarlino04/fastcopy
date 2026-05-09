@@ -14,7 +14,8 @@ typedef struct {
 
 FILE8 file_open(ARENA *arena, STRING8 *file_path) {
   FILE8 file = {0};
-  FILE *c_file = fopen(file_path->data, "rb");
+  FILE *c_file;
+  fopen_s(&c_file, file_path->data, "rb");
   if (c_file == NULL) {
     printf("fopen failed at FILE: %s, LINE: %d\n", __FILE__, __LINE__);
     exit(1);
@@ -42,13 +43,17 @@ b8 file_copy_to_file(FILE8 *source, FILE8 *dest) {
     printf("ERROR: source file does not exist\n");
     exit(1);
   }
-  FILE *check = fopen(dest->data, "rb");
+  FILE *check;
+  FILE *c_dest;
+
+  fopen_s(&check, dest->data, "rb");
   if (check) {
     fclose(check);
     printf("ERROR: destination file already exists\n");
     exit(1);
   }
-  FILE *c_dest = fopen(dest->data, "wb");
+
+  fopen_s(&c_dest, dest->data, "wb");
   if (!c_dest) {
     printf("fopen failed at FILE: %s, LINE: %d\n", __FILE__, __LINE__);
     exit(1);

@@ -15,7 +15,8 @@ typedef struct ARENA_BLOCK {
   u64 offset;
 } ARENA_BLOCK;
 
-#define ARENA_HEADER_SIZE ((sizeof(ARENA_BLOCK) + ARENA_ALIGNMENT - 1) & ~(ARENA_ALIGNMENT - 1))
+#define ARENA_HEADER_SIZE                                                      \
+  ((sizeof(ARENA_BLOCK) + ARENA_ALIGNMENT - 1) & ~(ARENA_ALIGNMENT - 1))
 
 typedef struct {
   ARENA_BLOCK *first;
@@ -37,7 +38,8 @@ ARENA arena_create(u64 block_size) {
 }
 
 static ARENA_BLOCK *arena_new_block(ARENA *arena, u64 min_capacity) {
-  u64 capacity = arena->block_size < min_capacity ? min_capacity : arena->block_size;
+  u64 capacity =
+      arena->block_size < min_capacity ? min_capacity : arena->block_size;
   ARENA_BLOCK *block = (ARENA_BLOCK *)malloc(ARENA_HEADER_SIZE + capacity);
   if (!block) {
     printf("malloc failed at FILE: %s, LINE: %d\n", __FILE__, __LINE__);
@@ -50,13 +52,15 @@ static ARENA_BLOCK *arena_new_block(ARENA *arena, u64 min_capacity) {
 }
 
 void *arena_alloc(ARENA *arena, u64 size) {
-  if (size == 0) size = 1;
+  if (size == 0)
+    size = 1;
   if (!arena->current) {
     arena->current = arena_new_block(arena, size);
     arena->first = arena->current;
   }
   ARENA_BLOCK *block = arena->current;
-  u64 aligned_offset = (block->offset + ARENA_ALIGNMENT - 1) & ~(ARENA_ALIGNMENT - 1);
+  u64 aligned_offset =
+      (block->offset + ARENA_ALIGNMENT - 1) & ~(ARENA_ALIGNMENT - 1);
   if (aligned_offset + size > block->capacity) {
     arena->block_size *= 2;
     ARENA_BLOCK *new_block = arena_new_block(arena, size);
