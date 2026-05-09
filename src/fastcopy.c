@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
-  printf("file %s copied to %s", source_path.data, dest_path.data);
+  printf("file %s copied to %s\n", source_path.data, dest_path.data);
 
   arena_destroy(&arena);
 
