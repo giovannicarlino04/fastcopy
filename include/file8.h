@@ -17,21 +17,23 @@ FILE8 file_open(ARENA *arena, STRING8 *file_path) {
     FILE *c_file;
     
     fopen_s(&c_file, file_path->data, "rb");
+    
+    
     if (c_file == NULL) {
-        log("fopen failed file_open", ERROR);
+        log(ERROR, "fopen failed file_open");
         exit(1);
     }
     fseek(c_file, 0, SEEK_END);
     long s = ftell(c_file);
     if (s < 0) {
-        log("ftell failed file_open", ERROR);
+        log(ERROR, "ftell failed file_open");
         exit(1);
     }
     file.size = s;
     fseek(c_file, 0, SEEK_SET);
     file.data = arena_alloc(arena, file.size ? file.size : 1);
     if (!file.data) {
-        log("arena_alloc failed at file_open", ERROR);
+        log(ERROR, "arena_alloc failed at file_open");
         exit(1);
     }
     fread(file.data, file.size, 1, c_file);
@@ -41,7 +43,7 @@ FILE8 file_open(ARENA *arena, STRING8 *file_path) {
 
 b8 file_copy_to_file(FILE8 *source, FILE8 *dest) {
     if (!source || !source->data) {
-        log("source file does not exist", ERROR);
+        log(ERROR, "source file does not exist");
         exit(1);
     }
     FILE *check;
@@ -50,13 +52,13 @@ b8 file_copy_to_file(FILE8 *source, FILE8 *dest) {
     fopen_s(&check, dest->data, "rb");
     if (check) {
         fclose(check);
-        log("destination file already exists", ERROR);
+        log(ERROR, "destination file \"%s\" already exists", dest->data);
         exit(1);
     }
     
     fopen_s(&c_dest, dest->data, "wb");
     if (!c_dest) {
-        log("fopen failed at file_copy_to_file", ERROR);
+        log(ERROR, "fopen failed at file_copy_to_file");
         exit(1);
     }
     fwrite(source->data, source->size, 1, c_dest);

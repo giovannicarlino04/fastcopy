@@ -17,8 +17,9 @@ STRING8 string8_create(ARENA *arena, char *c_str) {
     STRING8 result = {0};
     result.size = strlen(c_str);
     result.data = arena_alloc(arena, result.size + 1);
+    
     if (!result.data) {
-        log("arena_alloc failed", ERROR);
+        log(ERROR, "arena_alloc failed");
         exit(1);
     }
     memcpy(result.data, c_str, result.size + 1);

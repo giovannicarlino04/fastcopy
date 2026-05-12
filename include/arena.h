@@ -43,7 +43,7 @@ static ARENA_BLOCK *arena_new_block(ARENA *arena, u64 min_capacity) {
         arena->block_size < min_capacity ? min_capacity : arena->block_size;
     ARENA_BLOCK *block = (ARENA_BLOCK *)malloc(ARENA_HEADER_SIZE + capacity);
     if (!block) {
-        log("malloc failed", ERROR);
+        log(ERROR, "malloc failed");
         exit(1);
     }
     block->next = NULL;

@@ -15,9 +15,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int main(int argc, char **argv) {
     if (argc < 3) {
-        log("Usage: fastcopy <source file> <dest file>", ERROR);
+        log(INFO, "Usage: %s <source file> <dest file>", argv[0]);
         exit(1);
     }
     
@@ -26,7 +27,7 @@ int main(int argc, char **argv) {
     STRING8 dest_path = string8_create(&arena, argv[2]);
     
     if (!file_copy(&arena, &source_path, &dest_path)) {
-        log("fastcopy file_copy failed", ERROR);
+        log(ERROR, "fastcopy file_copy failed");
         exit(1);
     }
     
